@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { fetchData } from './api';
+import { fetchData } from '../api';
 
 interface DataState {
   data: any[];
