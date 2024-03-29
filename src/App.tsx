@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import "./App.css";
-import { useCommentsQuery } from "./services/commentsApi";
+import { useCommentQuery, useCommentsQuery } from "./services/commentsApi";
 
 function App() {
   const { data, error, isLoading, isFetching, isSuccess } = useCommentsQuery();
@@ -18,7 +18,7 @@ function App() {
               return (
                 <div className="data" key={comment.id}>
                   <span>{comment.name}</span>
-                  {/* <span><ContactDetail id={ contact.id} /></span> */}
+                  <span><CommentDeteail id={ comment.id.toString()} /></span>
                 </div>
               );
             })}
@@ -27,6 +27,16 @@ function App() {
       </div>
     </>
   );
+}
+
+export const CommentDeteail=({id}:{id:string})=>{
+  const {data}= useCommentQuery(id);
+
+  return(
+    <>
+      <pre> {JSON.stringify(data,undefined,2)} </pre>
+    </>
+  )
 }
 
 export default App;
