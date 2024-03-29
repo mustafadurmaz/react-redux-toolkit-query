@@ -1,35 +1,32 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+
+import "./App.css";
+import { useCommentsQuery } from "./services/commentsApi";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const { data, error, isLoading, isFetching, isSuccess } = useCommentsQuery();
 
   return (
     <>
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        {isLoading && <h2>...Loading</h2>}
+        {isFetching && <h2>...isFetching</h2>}
+        {error && <h2>Something went wrong</h2>}
+        {isSuccess && (
+          <div>
+            {data?.map((comment) => {
+              return (
+                <div className="data" key={comment.id}>
+                  <span>{comment.name}</span>
+                  {/* <span><ContactDetail id={ contact.id} /></span> */}
+                </div>
+              );
+            })}
+          </div>
+        )}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

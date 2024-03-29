@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { commentApi } from "./services/api";
+import { commentsApi } from "./services/commentsApi";
 
 export const store = configureStore({
   reducer: {
-    [commentApi.reducerPath]: commentApi.reducer,
+    [commentsApi.reducerPath]: commentsApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(commentApi.middleware),
+    getDefaultMiddleware().concat(commentsApi.middleware),
 });
