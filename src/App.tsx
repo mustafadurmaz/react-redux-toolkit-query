@@ -1,7 +1,11 @@
 import { useState } from "react";
 
 import "./App.css";
-import { useCommentQuery, useCommentsQuery } from "./services/commentsApi";
+import {
+  useAddCommentMutation,
+  useCommentQuery,
+  useCommentsQuery,
+} from "./services/commentsApi";
 
 function App() {
   const { data, error, isLoading, isFetching, isSuccess } = useCommentsQuery();
@@ -18,7 +22,9 @@ function App() {
               return (
                 <div className="data" key={comment.id}>
                   <span>{comment.name}</span>
-                  <span><CommentDeteail id={ comment.id.toString()} /></span>
+                  <span>
+                    <CommentDeteail id={comment.id.toString()} />
+                  </span>
                 </div>
               );
             })}
@@ -29,14 +35,37 @@ function App() {
   );
 }
 
-export const CommentDeteail=({id}:{id:string})=>{
-  const {data}= useCommentQuery(id);
+export const CommentDeteail = ({ id }: { id: string }) => {
+  const { data } = useCommentQuery(id);
 
-  return(
+  return (
     <>
-      <pre> {JSON.stringify(data,undefined,2)} </pre>
+      <pre> {JSON.stringify(data, undefined, 2)} </pre>
     </>
-  )
-}
+  );
+};
+
+export const AddComment = () => {
+  const [addComment] = useAddCommentMutation();
+  const { refetch } = useCommentsQuery();
+
+  const comment = {
+    postId: 1,
+    id: 2,
+    name: "quo vero reiciendis velit similique earum",
+    email: "Jayne_Kuhic@sydney.com",
+    body: "est natus enim nihil est dolore omnis voluptatem numquam\net omnis occaecati quod ullam at\nvoluptatem error expedita pariatur\nnihil sint nostrum voluptatem reiciendis et",
+  };
+
+  const addHandler = async () => {
+    await addComment(comment);
+  };
+
+  return (
+    <>
+      <button onClick={addHandler}>Add Comment</button>
+    </>
+  );
+};
 
 export default App;
